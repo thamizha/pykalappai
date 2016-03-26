@@ -1,0 +1,15 @@
+<RCC>
+  <qresource prefix="intro">
+    <file alias="splash_screen">images/intro.png</file>
+  </qresource>
+  <qresource prefix="icon">
+    <file alias="remove_icon">images/remove.png</file>
+    <file alias="clear_icon">images/clear.png</file>
+    <file alias="settings_icon">images/settings-icon.png</file>
+    <file alias="add_file_icon">images/file_add.png</file>
+    <file alias="browse_icon">images/browse.png</file>
+    <file alias="logo">images/ekalappai_icon.ico</file>
+    <file alias="off_logo">images/ekalappai_off_icon.ico</file>
+    <file alias="on_logo">images/ekalappai_on_icon.png</file>
+  </qresource>
+</RCC>
