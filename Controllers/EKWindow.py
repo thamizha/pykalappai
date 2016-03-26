@@ -66,6 +66,7 @@ class EKWindow(QDialog, dialog_ui.Ui_Dialog):
         self.tray_icon.show()
 
     def signal_connectors(self):
+        self.tray_icon.activated.connect(self.icon_activated)
         self.settings_action.triggered.connect(self.show_setting)
         self.about_action.triggered.connect(self.show_about)
         self.quit_action.triggered.connect(self.quit)
@@ -331,6 +332,7 @@ class EKWindow(QDialog, dialog_ui.Ui_Dialog):
                                 "\\" + \
                                 DatabaseManager.get_keyboard_path(DatabaseManager.get_current_keyboard())
         self.engine.initialize()
+        print(DatabaseManager.get_keyboard_path(DatabaseManager.get_current_keyboard()))
 
     def change_start_windows(self):
         if self.start_windows_check.isChecked():
