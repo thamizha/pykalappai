@@ -1,4 +1,4 @@
-import pyHook
+import pyWinhook as pyHook
 import pythoncom
 
 from threading import Thread
