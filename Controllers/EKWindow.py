@@ -16,8 +16,9 @@ import sys
 
 
 class EKWindow(QDialog, dialog_ui.Ui_Dialog):
-    def __init__(self):
+    def __init__(self, app):
         QDialog.__init__(self)
+        self.app = app
         self.app_path = os.getenv("APPDATA") + "\\" + qApp.applicationName()
         self.registrySettings = QSettings("HKEY_CURRENT_USER\Software\Microsoft\Windows\CurrentVersion\Run", QSettings.NativeFormat)
         self.table_path = self.app_path + "\\tables"
@@ -143,8 +144,7 @@ class EKWindow(QDialog, dialog_ui.Ui_Dialog):
 
     def quit(self):
         self.engine.un_hook()
-        win32api.PostThreadMessage(win32api.GetCurrentThreadId(), win32con.WM_QUIT, 0, 0)
-        self.exit(0)
+        self.app.exit(0)
 
     def show_setting(self):
         self.stacked_widget.setCurrentIndex(0)
