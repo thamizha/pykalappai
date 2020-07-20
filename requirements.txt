@@ -1,5 +1,4 @@
 PyQt5
 peewee
 pywin32
-pyWinHook
 pyinstaller
