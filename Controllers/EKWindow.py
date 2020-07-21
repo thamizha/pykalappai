@@ -11,11 +11,14 @@ import win32con
 import os
 import shutil
 import time
+import logging
+import sys
 
 
 class EKWindow(QDialog, dialog_ui.Ui_Dialog):
-    def __init__(self):
+    def __init__(self, app):
         QDialog.__init__(self)
+        self.app = app
         self.app_path = os.getenv("APPDATA") + "\\" + qApp.applicationName()
         self.registrySettings = QSettings("HKEY_CURRENT_USER\Software\Microsoft\Windows\CurrentVersion\Run", QSettings.NativeFormat)
         self.table_path = self.app_path + "\\tables"
@@ -126,7 +129,7 @@ class EKWindow(QDialog, dialog_ui.Ui_Dialog):
                 self.show_file_error("Keyboard already exists")
             else:
                 shutil.copyfile(filepath, self.table_path + "\\" + filename)
-                DatabaseManager.add_keyboard(keyboard_name, filename)
+                DatabaseManager.add_keyboard(keyboard_name, self.table_path + "\\" + filename)
                 self.file_path_tview.setText("")
                 self.update_table()
 
@@ -141,8 +144,7 @@ class EKWindow(QDialog, dialog_ui.Ui_Dialog):
 
     def quit(self):
         self.engine.un_hook()
-        win32api.PostThreadMessage(win32api.GetCurrentThreadId(), win32con.WM_QUIT, 0, 0)
-        self.exit(0)
+        self.app.exit(0)
 
     def show_setting(self):
         self.stacked_widget.setCurrentIndex(0)
@@ -328,11 +330,15 @@ class EKWindow(QDialog, dialog_ui.Ui_Dialog):
         self.load_keyboard()
 
     def load_keyboard(self):
-        self.engine.file_name = self.table_path +\
-                                "\\" + \
-                                DatabaseManager.get_keyboard_path(DatabaseManager.get_current_keyboard())
-        self.engine.initialize()
-        print(DatabaseManager.get_keyboard_path(DatabaseManager.get_current_keyboard()))
+        try:
+            self.engine.file_name = DatabaseManager.get_keyboard_path(DatabaseManager.get_current_keyboard())
+            self.engine.initialize()
+        except Exception as error:
+            # TODO: Need to throw an error
+            print('Error in loading keyboard')
+            print(error)
+            pass
+        
 
     def change_start_windows(self):
         if self.start_windows_check.isChecked():

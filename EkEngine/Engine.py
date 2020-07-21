@@ -1,4 +1,4 @@
-import pyHook
+import pyWinhook as pyHook
 import pythoncom
 
 from threading import Thread
@@ -31,10 +31,14 @@ class Engine(Thread):
         self.scim_mapping_reversed = {}
         self.valid_chars = []
         self.hm = pyHook.HookManager()
+        self.quit_thread = False
 
     def run(self):
         self.initialize()
         self.hook()
+        # Making sure to remove hm in case
+        self.un_hook()
+        return
 
     def initialize(self):
         table_parser = ScimTableParser()
@@ -44,6 +48,7 @@ class Engine(Thread):
 
     def un_hook(self):
         try:
+            self.quit_thread = True
             self.hm.__del__()
         except:
             pass
@@ -52,7 +57,8 @@ class Engine(Thread):
         self.hm.KeyDown = self.on_keyboard_event
         self.hm.KeyUp = self.on_keyup_event
         self.hm.HookKeyboard()
-        pythoncom.PumpMessages()
+        while not self.quit_thread:
+            pythoncom.PumpWaitingMessages()
 
     def setvalid_chars(self):
         keys_list = list(self.scim_mapping.keys())

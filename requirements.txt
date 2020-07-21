@@ -1,0 +1,4 @@
+PyQt5
+peewee
+pywin32
+pyinstaller
