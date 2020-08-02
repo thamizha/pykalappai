@@ -6,8 +6,6 @@ from view import dialog_ui
 from database import DatabaseManager
 from EkEngine import Engine
 
-import win32api
-import win32con
 import os
 import shutil
 import time

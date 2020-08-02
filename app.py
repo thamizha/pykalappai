@@ -1,4 +1,4 @@
-__author__ = "Manikk, Vijay, Mohan"
+__author__ = "Manikk, Vijay, Mohanrex"
 __copyright__ = "Copyright (c) 2015 http://thamizha.com/"
 __credits__ = ["Manikk, Vijay, Mohan"]
 __license__ = "GNU/GPL v3 or (at your option) any later version."

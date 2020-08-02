@@ -1,8 +1,7 @@
-import pyWinhook as pyHook
-import pythoncom
+import keyboard
+import time
 
 from threading import Thread
-from EkEngine import WinPipe
 from EkEngine.ScimTableParser import ScimTableParser
 
 
@@ -30,7 +29,7 @@ class Engine(Thread):
         self.scim_mapping = {}
         self.scim_mapping_reversed = {}
         self.valid_chars = []
-        self.hm = pyHook.HookManager()
+        self.hm = keyboard
         self.quit_thread = False
 
     def run(self):
@@ -49,16 +48,15 @@ class Engine(Thread):
     def un_hook(self):
         try:
             self.quit_thread = True
-            self.hm.__del__()
+            self.hm.unhook_all()
         except:
             pass
 
     def hook(self):
-        self.hm.KeyDown = self.on_keyboard_event
-        self.hm.KeyUp = self.on_keyup_event
-        self.hm.HookKeyboard()
+        self.hm.on_press(self.on_keyboard_event, suppress=True)
+        self.hm.on_release(self.on_keyup_event, suppress=True)
         while not self.quit_thread:
-            pythoncom.PumpWaitingMessages()
+            time.sleep(1)
 
     def setvalid_chars(self):
         keys_list = list(self.scim_mapping.keys())
@@ -71,8 +69,8 @@ class Engine(Thread):
             self.scim_mapping_reversed[v] = k
 
     def on_keyup_event(self, event):
-        if event.Key in self.control_keys:
-            self.key_state[event.Key] = False
+        if event.name in self.control_keys:
+            self.key_state[event.name] = False
         return True
 
     def check_event(self, char):
@@ -89,11 +87,11 @@ class Engine(Thread):
                 event[1](event[2])
 
     def on_keyboard_event(self, event):
-        if event.Key in self.control_keys:
-            self.key_state[event.Key] = True
-        self.check_event(event.Key)
+        if event.name in self.control_keys:
+            self.key_state[event.name] = True
+        self.check_event(event.name)
         if self.conv_state:
-            char = chr(event.Ascii)
+            char = event.name
             if char in self.valid_chars:
                 self.char_pressed += char
             elif char == " ":
@@ -125,11 +123,11 @@ class Engine(Thread):
 
                 if self.prev_unicode_char_length > 0 and len(self.chars_to_send) > 0:
                     for i in range(0, self.prev_unicode_char_length):
-                        WinPipe.send_backspace()
+                        self.hm.send('backspace')
 
                 if self.chars_to_send:
                     for i in self.chars_to_send:
-                        WinPipe.send_key_press(i)
+                        self.hm.write(i)
                     self.chars_to_send = ""
 
                 return False

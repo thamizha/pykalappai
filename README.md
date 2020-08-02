@@ -9,14 +9,12 @@ You could add many scim-tables on your own which is freely available in internet
  * Auto update feature for application
 
 ## Developer Docs
-This project is entirely written in Python 3 and with PyQT5 as its GUI toolkit. Other major dependencies are Peewee ORM library, PyWinHook for listening to keyboard button press events, and PyWin32 for all the windows API. This project will store some of its settings to its SQL Lite Database. This application will run as a taskbar app and always listen to the keyboard click once installed and started.
+This project is entirely written in Python 3 and with PyQT5 as its GUI toolkit. Other major dependencies are Peewee ORM library, Keyboard Library is for listening to keyboard button press events. This project will store some of its settings to its SQL Lite Database. This application will run as a taskbar app and always listen to the keyboard click once installed and started.
 
 ### Environment Setup
-
 - Install any Code Editor tool like Visual Studio Code
 - Install Python V3.x. You can download the latest version from this link [Download Python](https://www.python.org/downloads/)
-- Then run the following command to install PyQT, Peewee and pywin32 in your command prompt. `pip install PyQt5 peewee pywin32`
-- PyWinHook is a wrapper for listening to the windows keyboard and mouse events. It's available in pip repo too. If you have a very good build tool like the latest Visual C++ Compiler for Python and Swig for windows in your machine you can install by using `pip install pyWinhook`. Else You have to download the file according to your python version and system. cp3.x denotes python version and also for 32 bit or 64 bit from this [link](https://www.lfd.uci.edu/~gohlke/pythonlibs/#pywinhook). After that open command prompt and navigate to the downloaded location and type `pip install <downloaded file>` to install PyWinHook.
+- Then run the following command to install PyQT, Peewee and pywin32 in your command prompt. `pip install PyQt5 peewee keyboard`
 - After that fork the remote repository to your account to start working on it.
 - Then clone the repository to your local machine
 - After cloning navigate to the folder where you cloned the application code in command prompt
@@ -109,7 +107,7 @@ This is the folder which contains files related to the database functions
 This is the folder which contains all the actions or controller logic presents. In generic, each window in our application should have one controller file. Right now only one window is there which is EkWindow.py  which will help us with all the UI elements actions and related functions.
 
 ## License
-This application is licensed under GPLv2+
+This application is licensed under GPLv3+
 
 ## Disclaimer
 This application is in development stage. Use at your own risk
